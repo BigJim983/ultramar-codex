@@ -1,0 +1,186 @@
+{
+  "meta": {
+    "edition_year": 2025,
+    "chapter": "Ultramarines",
+    "project": "Storm Company (8th)"
+  },
+  "companies": [
+    {
+      "name": "1st Company \u2014 Veterans",
+      "notes": "Terminator cadres and Bladeguard (Primaris-preference maintained).",
+      "elements": [
+        {
+          "label": "Command",
+          "value": "Captain Agemon (prospective), Librarian in Terminator armour; (Wishlist) Chaplain in Terminator armour; Terminator Ancient."
+        },
+        {
+          "label": "Line Strength",
+          "value": "3\u00d7 five-man Terminator squads (owned) \u2192 target 3\u00d7 ten-man squads (needs +15 Terminators)."
+        },
+        {
+          "label": "Assault Terminators",
+          "value": "Target full complement of 30 (new pattern)."
+        },
+        {
+          "label": "Veterans",
+          "value": "Bladeguard Veterans \u2014 expand to full contingent."
+        },
+        {
+          "label": "Centurions",
+          "value": "Both assault & devastator patterns noted."
+        }
+      ]
+    },
+    {
+      "name": "8th Company \u2014 Storm Company",
+      "notes": "Assault & jump infantry; \u201cStorm\u2019s Voice\u201d aesthetic under Chaplain Shepard.",
+      "elements": [
+        {
+          "label": "Command",
+          "value": "Captain Quintus (jump), Chaplain Shepard (Tempest Mortalis; Pax Ferrata), Lieutenant (plasma pistol & power fist)."
+        },
+        {
+          "label": "Key Squads",
+          "value": "2nd Assault Squad led by Sgt. Kael \u2014 includes hand flamer; 2\u00d7 grenadiers noted."
+        },
+        {
+          "label": "Notes",
+          "value": "Veteran Intercessor elements under consideration."
+        }
+      ]
+    },
+    {
+      "name": "10th Company \u2014 Scouts & Vanguard",
+      "notes": "Recon, infiltration, target marking, terror-scout elements.",
+      "elements": [
+        {
+          "label": "Command",
+          "value": "Captain (Phobos), Librarian (Phobos), Lieutenants: Reiver-armoured; Phobos; combi-weapon."
+        },
+        {
+          "label": "Aux Engines",
+          "value": "Invictor Tactical Warsuits \u00d72"
+        },
+        {
+          "label": "Infantry",
+          "value": "Scouts 3\u00d75; Reivers 2\u00d75 & 1\u00d710; Incursors 1\u00d75; Infiltrators 3\u00d75; Eliminators \u00d72 squads."
+        }
+      ]
+    }
+  ],
+  "armory": {
+    "transports": [
+      "Impulsor \u00d73",
+      "Drop Pod \u00d72",
+      "Land Raider \u00d71 (unbuilt)"
+    ],
+    "artillery": [
+      "Vindicator \u00d71",
+      "Firestrike Servo-Turret \u00d71"
+    ],
+    "dreadnoughts": [
+      "Brutalis \u00d72",
+      "Redemptor \u00d72",
+      "Venerable \u00d71",
+      "Saturnine Pattern \u00d71"
+    ],
+    "relics": [
+      {
+        "name": "Tempest Mortalis",
+        "bearer": "Chaplain Shepard",
+        "notes": "Reforged crozius arcanum \u2014 lineage to Reclusiarch Erastes."
+      },
+      {
+        "name": "Pax Ferrata",
+        "bearer": "Chaplain Shepard",
+        "notes": "Chained bolt sidearm; each link a vow."
+      }
+    ]
+  },
+  "heroes": [
+    {
+      "name": "Chaplain Shepard",
+      "notes": "\u201cStorm\u2019s Voice.\u201d Bearer of Tempest Mortalis; Pax Ferrata (chained).",
+      "tag": "8th Company"
+    },
+    {
+      "name": "Captain Lucian Marria",
+      "notes": "Newly promoted; field-grade command duties (XO flavor).",
+      "tag": "Chapter Command"
+    },
+    {
+      "name": "Captain Quintus",
+      "notes": "Jump Pack captaincy; assault doctrine lead.",
+      "tag": "8th Company"
+    },
+    {
+      "name": "Captain Agemon",
+      "notes": "Veterans\u2019 command prospect for Terminator cadre.",
+      "tag": "1st Company"
+    },
+    {
+      "name": "Librarian (Terminator Armour)",
+      "notes": "Sanctioned psykana; attached to 1st Company operations.",
+      "tag": "Epistolary"
+    },
+    {
+      "name": "Lieutenant \u2014 Plasma & Power Fist",
+      "notes": "Squad-level shock leadership.",
+      "tag": "Assault cadres"
+    }
+  ],
+  "campaigns": [
+    {
+      "name": "Eidolica Theatre",
+      "notes": "Home-world spiritual anchor; staging ground for Reclusiam chronicles.",
+      "tag": "Lore anchor"
+    },
+    {
+      "name": "After-Action Reports",
+      "notes": "Templates for engagements, citations, and honors.",
+      "tag": "Templates ready"
+    }
+  ],
+  "allies": [
+    {
+      "name": "Adeptus Astartes (Other Chapters)",
+      "notes": "Cooperating Chapters and detachments."
+    },
+    {
+      "name": "Adeptus Mechanicus",
+      "notes": "Forge support, Knight banners, tech-auxilia."
+    },
+    {
+      "name": "Astra Militarum",
+      "notes": "Attached regiments; PDF and auxilia."
+    }
+  ],
+  "enemies": [
+    {
+      "name": "Chaos Space Marines",
+      "notes": "Heretic Astartes warbands opposing Ultramar.",
+      "models": "CSM"
+    },
+    {
+      "name": "Emperor\u2019s Children",
+      "notes": "III Legion; sonic terror and decadent warfare.",
+      "models": "EC"
+    },
+    {
+      "name": "World Eaters",
+      "notes": "XII Legion; chainaxe doctrines and assault hosts.",
+      "models": "WE"
+    },
+    {
+      "name": "Tyranids",
+      "notes": "Hive tendrils; bio-constructs and synapse nodes.",
+      "models": "Tyranids"
+    },
+    {
+      "name": "Death Guard",
+      "notes": "XIV Legion; attritional and contamination warfare.",
+      "models": "DG"
+    }
+  ],
+  "gallery": []
+}
