@@ -3,116 +3,258 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Codex Ultramar – Relic Edition</title>
-  <meta name="description" content="Relic codex folio" />
+  <title>Ultramar Data‑Slate</title>
+  <meta name="description" content="Modern tactical dataslate interface for an Ultramarines project index" />
   <style>
     :root{
-      --parchment:#f6f1e5;
-      --parchment-ink:#201a14;
-      --parchment-muted:#5b4f40;
-      --ultra-blue:#1847b7;
-      --ultra-gold:#c7a658;
-      --ultra-red:#8c2f2a;
-      --line:#d7cbb2;
-      --shadow:0 12px 40px rgba(32,26,20,.15), inset 0 1px 0 rgba(255,255,255,.35);
-      --radius:18px;
+      --bg-0:#0b0f14;
+      --bg-1:#0f141b;
+      --bg-2:#131a22;
+      --line:#1b2531;
+      --text-0:#e6eef9;
+      --text-1:#a9b9cc;
+      --muted:#6a7c91;
+      --accent:#5aa2ff;
+      --accent-2:#7cf1d1;
+      --warn:#ffce6a;
+      --radius:16px;
+      --shadow: 0 10px 30px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.02);
     }
-    @font-face{ font-family:'CodexDisplay'; src: local('Garamond'), local('EB Garamond'), local('Palatino Linotype'); }
-    @font-face{ font-family:'CodexText'; src: local('Garamond'), local('Georgia'), local('Times New Roman'); }
-    *{box-sizing:border-box}
+    *,*::before,*::after{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; color:var(--parchment-ink); font: 17px/1.6 CodexText, serif;
-      background:
-        radial-gradient(1200px 800px at 20% -10%, rgba(199,166,88,.18), transparent 60%),
-        radial-gradient(900px 700px at 120% 10%, rgba(24,71,183,.06), transparent 55%),
-        linear-gradient(180deg, #fbf9f3, #f0e7d5);
+      margin:0; color:var(--text-0); background:var(--bg-0);
+      font: 15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Helvetica,Arial,sans-serif;
+      text-rendering:optimizeLegibility; -webkit-font-smoothing:antialiased;
+      background-image:
+        linear-gradient(transparent 95%, rgba(255,255,255,.03) 96%, transparent 97%),
+        radial-gradient(1200px 800px at 20% -10%, rgba(90,162,255,.06), transparent 60%),
+        radial-gradient(1000px 600px at 100% 0%, rgba(124,241,209,.04), transparent 50%);
+      background-size: auto, 100% 100%, 100% 100%;
     }
-    a{color:var(--ultra-blue); text-decoration:none}
+    a{color:var(--accent); text-decoration:none}
     a:hover{text-decoration:underline}
-    .page{max-width: 980px; margin: 28px auto 60px; padding: 24px;}
-    .folio{
-      background: var(--parchment);
-      border: 2px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 28px;
-      position: relative;
-      overflow:hidden;
+    .app{display:grid; grid-template-columns: 260px 1fr; min-height:100vh}
+    @media (max-width: 880px){
+      .app{grid-template-columns: 1fr}
+      .sidebar{position:sticky; top:0; z-index:50}
     }
-    .folio:before, .folio:after{content:""; position:absolute; width:120px; height:120px; opacity:.25;}
-    .folio:before{top:-6px; left:-6px; background: conic-gradient(from 45deg, var(--ultra-gold), transparent 25% 75%, var(--ultra-gold)); border-radius: 0 0 120px 0}
-    .folio:after{bottom:-6px; right:-6px; background: conic-gradient(from 225deg, var(--ultra-gold), transparent 25% 75%, var(--ultra-gold)); border-radius: 120px 0 0 0}
-    .masthead{display:flex; align-items:center; gap:16px; border-bottom: 2px solid var(--line); padding-bottom: 14px;}
-    .badge{width:56px; height:56px; color:var(--ultra-blue)}
-    .masthead h1{font: 700 1.9rem/1.2 CodexDisplay, serif; letter-spacing:.02em; margin:0}
-    .subtitle{margin:4px 0 0; color:var(--parchment-muted); font-size:1rem}
-    .nav{display:flex; gap:10px; flex-wrap:wrap; margin: 14px 0 0}
-    .chip{display:inline-flex; align-items:center; gap:8px; padding:.45rem .75rem; border-radius: 999px; border:1.5px solid var(--line); background: #fbf7ee;}
-    .chip svg{width:16px; height:16px; color:var(--ultra-blue)}
-    .section-title{display:flex; align-items:center; justify-content:space-between; margin: 16px 0 8px}
-    .section-title h4{margin:0; font: 700 .95rem/1.2 CodexDisplay, serif; letter-spacing:.06em; text-transform:uppercase; color:#34302a}
-    .grid{display:grid; gap:14px; grid-template-columns: repeat(12, 1fr)}
-    .card{grid-column: span 6; background:#fffdf6; border: 1.5px solid var(--line); border-radius: 14px; padding: 14px; position:relative; overflow:hidden}
-    .card h3{margin:0 0 6px; font:700 1.1rem/1.2 CodexDisplay, serif}
-    .card p{margin:.2rem 0; color:var(--parchment-muted)}
-    .card .meta{position:absolute; bottom:10px; right:12px; font-size:.8rem; color:#7a6b57}
-    @media (max-width: 1000px){ .card{grid-column: span 12} }
-    table{width:100%; border-collapse:collapse; background:#fffdf6; border:1.5px solid var(--line); border-radius:12px; overflow:hidden}
-    th,td{padding:.6rem .75rem; border-bottom:1px dashed #dbcfb6; text-align:left}
-    th{background:#fbf7ee; font-weight:700; font-family:CodexDisplay, serif; letter-spacing:.02em}
-    tr:last-child td{border-bottom:none}
-    .footer{margin: 18px 0 4px; font-size:.95rem; color:#564b3b}
-    .back{float:right}
+    .sidebar{
+      background:linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      border-right:1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+    .brand{display:flex; align-items:center; gap:.75rem; padding:1rem 1rem 0 1rem}
+    .omega{width:28px; height:28px; color:var(--accent)}
+    .brand h1{font-size:1.05rem; letter-spacing:.12em; margin:0; text-transform:uppercase; color:var(--text-0)}
+    .tagline{margin:.25rem 1rem 1rem; color:var(--muted); font-size:.85rem}
+    .nav{padding:.5rem}
+    .nav a{
+      display:flex; align-items:center; gap:.6rem; padding:.6rem .8rem; border-radius:12px;
+      color:var(--text-1); border:1px solid transparent;
+    }
+    .nav a:hover{background:rgba(90,162,255,.08); border-color:rgba(90,162,255,.15); color:var(--text-0)}
+    .nav a.active{background:linear-gradient(180deg, rgba(90,162,255,.16), rgba(90,162,255,.06)); border-color:rgba(90,162,255,.35); color:var(--text-0)}
+    .nav svg{width:18px; height:18px; opacity:.9}
+    .sidebar .panel{margin:1rem; padding:1rem; background:rgba(255,255,255,.02); border:1px solid var(--line); border-radius:var(--radius)}
+    .kv{display:flex; justify-content:space-between; font-variant-numeric:tabular-nums; color:var(--text-1)}
+    .kv strong{color:var(--text-0)}
+    .content{
+      background:
+        linear-gradient(transparent, transparent) padding-box,
+        repeating-linear-gradient(90deg, transparent 0 119px, var(--line) 119px 120px),
+        repeating-linear-gradient(0deg, transparent 0 119px, var(--line) 119px 120px);
+      padding: 24px min(5vw, 48px);
+    }
+    .topbar{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+    .search{
+      flex:1 1 380px; display:flex; gap:10px; align-items:center; background:var(--bg-2);
+      border:1px solid var(--line); border-radius:14px; padding:.6rem .8rem; box-shadow:var(--shadow)
+    }
+    .search input{flex:1; border:none; outline:none; background:transparent; color:var(--text-0)}
+    .badge{font-size:.72rem; color:var(--muted); border:1px solid var(--line); padding:.25rem .5rem; border-radius:999px}
+    .btn{appearance:none; border:1px solid var(--line); background:var(--bg-2); color:var(--text-0); border-radius:12px; padding:.6rem .8rem; cursor:pointer}
+    .btn:hover{border-color:rgba(90,162,255,.35); background:linear-gradient(180deg, rgba(90,162,255,.10), rgba(90,162,255,.02))}
+    .hero{
+      margin:22px 0; padding:22px; border-radius:var(--radius); border:1px solid var(--line);
+      background: radial-gradient(800px 240px at 15% 0%, rgba(90,162,255,.18), transparent 60%),
+                  radial-gradient(900px 260px at 90% -10%, rgba(124,241,209,.15), transparent 60%),
+                  linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00));
+      box-shadow: var(--shadow);
+    }
+    .hero h2{margin:.2rem 0 .5rem; font-size:1.6rem; letter-spacing:.02em}
+    .hero p{margin:.25rem 0; color:var(--text-1)}
+    .grid{display:grid; gap:16px; grid-template-columns: repeat(12, 1fr)}
+    .card{grid-column: span 4; min-height: 140px; background:var(--bg-2); border:1px solid var(--line); border-radius:var(--radius); padding:16px; position:relative; overflow:hidden}
+    .card::after{content:""; position:absolute; inset:0; background: linear-gradient(45deg, transparent, rgba(90,162,255,.08)); opacity:0; transition:opacity .25s}
+    .card:hover::after{opacity:1}
+    .card h3{margin:0 0 .35rem; font-size:1.05rem}
+    .card p{margin:.2rem 0; color:var(--text-1)}
+    .card .meta{position:absolute; bottom:12px; right:14px; font-size:.75rem; color:var(--muted)}
+    @media (max-width: 1200px){ .card{grid-column: span 6} }
+    @media (max-width: 700px){ .card{grid-column: span 12} }
+    .section-title{display:flex; align-items:center; justify-content:space-between; margin:28px 0 12px}
+    .section-title h4{margin:0; color:var(--text-1); font-weight:600; letter-spacing:.08em; text-transform:uppercase; font-size:.82rem}
+    .log{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size:.85rem; background:var(--bg-2); border:1px solid var(--line); border-radius:12px; padding:12px; max-height:220px; overflow:auto}
+    .log .row{display:grid; grid-template-columns: 140px 1fr; gap:10px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,.04)}
+    .log .row:last-child{border-bottom:none}
+    .log .tag{color:var(--accent-2)}
+    .footer{margin:28px 0 12px; color:var(--muted); font-size:.85rem}
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.88} }
+    .hud-pulse{ animation: pulse 4s ease-in-out infinite }
   </style>
 </head>
 <body>
-  <main class="page">
-    <article class="folio" aria-label="Codex page">
-      <header class="masthead">
-        <svg class="badge" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-          <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stop-color="#1c52d1"/><stop offset="1" stop-color="#13388d"/>
-          </linearGradient></defs>
-          <circle cx="32" cy="32" r="30" fill="url(#g)" stroke="#10265c" stroke-width="2"/>
-          <path d="M18 42h28v6H18z" fill="#fff"/><path d="M32 14c-8.84 0-16 7.16-16 16v6h9v-6a7 7 0 0114 0v6h9v-6c0-8.84-7.16-16-16-16z" fill="#fff"/>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <svg class="omega" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <path d="M12 50h40v4H12z" fill="currentColor"/>
+          <path d="M32 10c-9.94 0-18 8.06-18 18v8h10v-8c0-4.42 3.58-8 8-8s8 3.58 8 8v8h10v-8c0-9.94-8.06-18-18-18z" stroke="currentColor" stroke-width="4"/>
         </svg>
-        <div>
-          <h1>Codex Ultramar <span style="color:var(--ultra-gold)">·</span> Relic Edition</h1>
-          <p class="subtitle">Maintained by the Storm Company Reclusiam. Edition Year: 2025.</p>
-          <nav class="nav" aria-label="Primary">
-            <a class="chip" href="index.html">Home</a>
-            <a class="chip" href="companies.html">Companies</a>
-            <a class="chip" href="armory.html">Armory</a>
-            <a class="chip" href="heroes.html">Heroes</a>
-            <a class="chip" href="campaigns.html">Campaigns</a>
-            <a class="chip" href="gallery.html">Gallery</a>
-            <a class="chip" href="allies.html">Allies</a>
-            <a class="chip" href="enemies.html">Enemies</a>
-            <a class="chip" href="relics.html">Appendix: Relics</a>
-          </nav>
-        </div>
-      </header>
+        <h1>Ultramar Data‑Slate</h1>
+      </div>
+      <p class="tagline">Codex‑compliant records. Tactica‑grade UI.</p>
+      <nav class="nav">
+        <a href="index.html" class="active" aria-current="page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12l9-9 9 9"/><path d="M9 21V9h6v12"/></svg>
+          Dashboard
+        </a>
+        <a href="companies.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg>
+          Companies
+        </a>
+        <a href="armory.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          Armory
+        </a>
+        <a href="heroes.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 12a5 5 0 100-10 5 5 0 000 10z"/><path d="M20 21a8 8 0 10-16 0"/></svg>
+          Heroes
+        </a>
+        <a href="campaigns.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+          Campaigns
+        </a>
+        <a href="gallery.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 5h18v14H3z"/><path d="M10 13l3-3 5 6H6l2-3z"/></svg>
+          Gallery
+        </a>
+        <a href="allies.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="10" r="5"/><path d="M2 22c1.5-4 6-6 10-6s8.5 2 10 6"/></svg>
+          Allies
+        </a>
+        <a href="enemies.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
+          Enemies
+        </a>
+        <a href="relics.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h16v16H4z"/></svg>
+          Relics
+        </a>
+      </nav>
+      <div class="panel">
+        <div class="kv"><span>Chapter</span> <strong>Ultramarines</strong></div>
+        <div class="kv"><span>Project</span> <strong>Storm Company</strong></div>
+        <div class="kv"><span>Status</span> <strong class="hud-pulse" style="color:var(--warn)">ACTIVE</strong></div>
+      </div>
+      <div class="panel">
+        <button class="btn" id="toggleTheme" style="width:100%">Toggle Glow Theme</button>
+      </div>
+    </aside>
 
-      <section aria-label="Index">
-        <div class="section-title"><h4>Index of Folios</h4></div>
-        <div class="grid">
-          <a class="card" href="companies.html"><h3>Companies</h3><p>Order of Battle and squad compositions.</p><span class="meta">8 folios</span></a>
-          <a class="card" href="armory.html"><h3>Armory</h3><p>Engines of war, relics, and sacred munitions.</p><span class="meta">Dreads, tanks, relics</span></a>
-          <a class="card" href="heroes.html"><h3>Heroes</h3><p>Chaplains, Captains, Librarians — oaths and honors.</p><span class="meta">Storm Company focus</span></a>
-          <a class="card" href="campaigns.html"><h3>Campaigns</h3><p>Theatres of war and after‑action testimonies.</p><span class="meta">3 theatres</span></a>
-          <a class="card" href="gallery.html"><h3>Gallery</h3><p>Illuminations of the Chapter: paint and heraldry.</p><span class="meta">Plates</span></a>
-          <a class="card" href="relics.html"><h3>Appendix: Relics</h3><p>Tempest Mortalis, Pax Ferrata, and other artefacts.</p><span class="meta">Under review</span></a>
-          <a class="card" href="allies.html"><h3>Allies of the XIII</h3><p>Imperial partners, agents, and auxiliaries.</p><span class="meta">Astartes & Imperial</span></a>
-          <a class="card" href="enemies.html"><h3>Enemies of the XIII</h3><p>Traitor Legions, Xenos, and Warp‑spawned foes.</p><span class="meta">Ongoing dossiers</span></a>
+    <main class="content">
+      <div class="topbar">
+        <div class="search" role="search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-3.2-3.2"/></svg>
+          <input id="q" placeholder="Quick search ( / ) — units, heroes, relics…" aria-label="Search database" />
+          <span class="badge">BUILD v0.2</span>
         </div>
+        <a class="btn" href="codex.json" target="_blank" rel="noopener">View codex.json</a>
+      </div>
+
+      <section class="hero">
+        <h2>Codex Node: Storm Company Net</h2>
+        <p>Modern dataslate dashboard. Use the cards below to navigate to illuminated folios.</p>
+        <p class="hud-pulse" style="color:var(--text-1)">Tip: press <kbd>/</kbd> to focus search.</p>
       </section>
 
-      <footer class="footer">
-        <em>Copied and illuminated on the Shrine‑world of Eidolica; archived upon Macragge.</em>
-        <a class="back" href="index.html">⬅ Back to Index</a>
-      </footer>
-    </article>
-  </main>
+      <div class="section-title"><h4>Quick Access</h4><button class="btn" id="shuffle">Shuffle</button></div>
+      <div class="grid" id="cards"></div>
+
+      <div class="section-title"><h4>Event Log</h4></div>
+      <div class="log" id="log"></div>
+
+      <p class="footer">Maintained under the authority of the Reclusiam, Storm Company.</p>
+    </main>
+  </div>
+
+  <script>
+    const dataset = [
+      { title: 'Companies', link: 'companies.html', desc: 'Order of battle, squad lists, insignia.', meta: 'Open folio' },
+      { title: 'Armory', link: 'armory.html', desc: 'Dreadnoughts, armor, relics, munitions.', meta: 'Open folio' },
+      { title: 'Heroes', link: 'heroes.html', desc: 'Chaplains, Captains, Librarians — honors.', meta: 'Open folio' },
+      { title: 'Campaigns', link: 'campaigns.html', desc: 'Theatres and after‑action reports.', meta: 'Open folio' },
+      { title: 'Gallery', link: 'gallery.html', desc: 'Painted squads, WIP, basing and terrain.', meta: 'Open folio' },
+      { title: 'Appendix: Relics', link: 'relics.html', desc: 'Tempest Mortalis, Pax Ferrata.', meta: 'Open folio' },
+      { title: 'Allies of the XIII', link: 'allies.html', desc: 'Imperial partners & auxiliaries.', meta: 'Open folio' },
+      { title: 'Enemies of the XIII', link: 'enemies.html', desc: 'Traitors, xenos, warp-spawned foes.', meta: 'Open folio' },
+    ];
+
+    const cards = document.getElementById('cards');
+    function renderCards(arr){
+      cards.innerHTML = '';
+      arr.forEach(item => {
+        const card = document.createElement('a');
+        card.href = item.link;
+        card.className = 'card';
+        card.innerHTML = `<h3>${item.title}</h3><p>${item.desc}</p><span class="meta">${item.meta}</span>`;
+        cards.appendChild(card);
+      });
+    }
+    renderCards(dataset);
+
+    const logEl = document.getElementById('log');
+    function log(tag, msg){
+      const row = document.createElement('div');
+      row.className = 'row';
+      const ts = new Date().toLocaleString([], {hour12:false});
+      row.innerHTML = `<div class="tag">[${tag}]</div><div>${ts} — ${msg}</div>`;
+      logEl.prepend(row);
+    }
+    log('BOOT', 'Dataslate online. Integrity check passed.');
+
+    document.getElementById('shuffle').addEventListener('click', () => {
+      const arr = dataset.slice().sort(()=>Math.random()-.5);
+      renderCards(arr);
+      log('SYS', 'Dashboard cards shuffled.');
+    });
+
+    const q = document.getElementById('q');
+    function doSearch(v){
+      const term = v.trim().toLowerCase();
+      if(!term){ renderCards(dataset); return; }
+      const filtered = dataset.filter(d => (d.title + ' ' + d.desc).toLowerCase().includes(term));
+      renderCards(filtered.length ? filtered : [{title:'No results', link:'#', desc:`No entries match "${v}"`, meta:''}]);
+    }
+    q?.addEventListener('input', e => doSearch(e.target.value));
+    window.addEventListener('keydown', e => {
+      if(e.key === '/' && document.activeElement !== q){ e.preventDefault(); q.focus(); }
+    });
+
+    const root = document.documentElement;
+    document.getElementById('toggleTheme').addEventListener('click', () => {
+      const current = getComputedStyle(root).getPropertyValue('--accent').trim();
+      if(current === '#5aa2ff' || current === 'rgb(90, 162, 255)'){
+        root.style.setProperty('--accent', '#7cf1d1');
+        root.style.setProperty('--accent-2', '#5aa2ff');
+        log('THEME', 'Cyan primary engaged.');
+      } else {
+        root.style.setProperty('--accent', '#5aa2ff');
+        root.style.setProperty('--accent-2', '#7cf1d1');
+        log('THEME', 'Ultramar blue primary engaged.');
+      }
+    });
+  </script>
 </body>
 </html>
