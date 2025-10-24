@@ -1,68 +1,44 @@
-
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Companies · Codex Ultramar</title>
-  <meta name="description" content="Companies folio" />
-  <link rel="preload" href="codex.json" as="fetch" crossorigin="anonymous">
-  <style>
-    :root{--parchment:#f6f1e5;--parchment-ink:#201a14;--parchment-muted:#5b4f40;--ultra-blue:#1847b7;--ultra-gold:#c7a658;--ultra-red:#8c2f2a;--line:#d7cbb2;--shadow:0 12px 40px rgba(32,26,20,.15), inset 0 1px 0 rgba(255,255,255,.35);--radius:18px}
-    @font-face{font-family:'CodexDisplay';src: local('Garamond'), local('EB Garamond'), local('Palatino Linotype')}
-    @font-face{font-family:'CodexText';src: local('Garamond'), local('Georgia'), local('Times New Roman')}
-    *{box-sizing:border-box}html,body{height:100%}
-    body{margin:0;color:var(--parchment-ink);font:17px/1.6 CodexText,serif;background:radial-gradient(1200px 800px at 20% -10%, rgba(199,166,88,.18), transparent 60%),radial-gradient(900px 700px at 120% 10%, rgba(24,71,183,.06), transparent 55%),linear-gradient(180deg,#fbf9f3,#f0e7d5)}
-    a{color:var(--ultra-blue);text-decoration:none}a:hover{text-decoration:underline}
-    .page{max-width:980px;margin:28px auto 60px;padding:24px}
-    .folio{background:var(--parchment);border:2px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px;position:relative;overflow:hidden}
-    .folio:before,.folio:after{content:"";position:absolute;width:120px;height:120px;opacity:.25}
-    .folio:before{top:-6px;left:-6px;background:conic-gradient(from 45deg,var(--ultra-gold),transparent 25% 75%,var(--ultra-gold));border-radius:0 0 120px 0}
-    .folio:after{bottom:-6px;right:-6px;background:conic-gradient(from 225deg,var(--ultra-gold),transparent 25% 75%,var(--ultra-gold));border-radius:120px 0 0 0}
-    .masthead{display:flex;align-items:center;gap:16px;border-bottom:2px solid var(--line);padding-bottom:14px}
-    .badge{width:56px;height:56px;color:var(--ultra-blue)}.masthead h1{font:700 1.9rem/1.2 CodexDisplay,serif;letter-spacing:.02em;margin:0}
-    .subtitle{margin:4px 0 0;color:var(--parchment-muted);font-size:1rem}
-    .nav{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 0}.chip{display:inline-flex;align-items:center;gap:8px;padding:.45rem .75rem;border-radius:999px;border:1.5px solid var(--line);background:#fbf7ee}
-    .section-title{display:flex;align-items:center;justify-content:space-between;margin:16px 0 8px}
-    .section-title h4{margin:0;font:700 .95rem/1.2 CodexDisplay,serif;letter-spacing:.06em;text-transform:uppercase;color:#34302a}
-    .grid{display:grid;gap:14px;grid-template-columns:repeat(12,1fr)}.card{grid-column:span 6;background:#fffdf6;border:1.5px solid var(--line);border-radius:14px;padding:14px;position:relative;overflow:hidden}.card h3{margin:0 0 6px;font:700 1.1rem/1.2 CodexDisplay,serif}.card p{margin:.2rem 0;color:var(--parchment-muted)}.card .meta{position:absolute;bottom:10px;right:12px;font-size:.8rem;color:#7a6b57}
-    @media (max-width:1000px){.card{grid-column:span 12}}
-    table{width:100%;border-collapse:collapse;background:#fffdf6;border:1.5px solid var(--line);border-radius:12px;overflow:hidden}th,td{padding:.6rem .75rem;border-bottom:1px dashed #dbcfb6;text-align:left}th{background:#fbf7ee;font-weight:700;font-family:CodexDisplay,serif;letter-spacing:.02em}tr:last-child td{border-bottom:none}
-    .footer{margin:18px 0 4px;font-size:.95rem;color:#564b3b}.back{float:right}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Companies · Codex Ultramar</title>
+<link rel="preload" href="codex.json" as="fetch" crossorigin="anonymous">
+<style>
+:root{--parchment:#f6f1e5;--parchment-ink:#201a14;--parchment-muted:#5b4f40;--ultra-blue:#1847b7;--ultra-gold:#c7a658;--line:#d7cbb2;--radius:18px}
+body{margin:0;background:linear-gradient(180deg,#fbf9f3,#f0e7d5);font-family:Georgia,serif;color:#201a14}
+.page{max-width:980px;margin:24px auto;padding:24px}
+.folio{background:#f6f1e5;border:2px solid #d7cbb2;border-radius:var(--radius);padding:28px;box-shadow:0 12px 40px rgba(32,26,20,.15)}
+.nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.nav a{text-decoration:none;color:#1847b7;border:1px solid #d7cbb2;padding:6px 10px;border-radius:10px;background:#fffdf6}
+.nav a:hover{background:#e8eefc}
+.toggle-slate{float:right;margin-top:8px;font-size:.9rem;background:linear-gradient(180deg,rgba(90,162,255,.15),rgba(90,162,255,.05));border:1.5px solid #5aa2ff;border-radius:999px;padding:.35rem .75rem;text-decoration:none;color:#1847b7;font-weight:600;box-shadow:0 0 8px rgba(90,162,255,.25)}
+.toggle-slate:hover{background:rgba(90,162,255,.25);box-shadow:0 0 10px rgba(90,162,255,.45)}
+.footer{margin-top:18px;font-size:.9rem;color:#564b3b}
+</style>
 </head>
 <body>
-  <main class="page">
-    <article class="folio" aria-label="Codex page">
-      <header class="masthead">
-        <svg class="badge" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-          <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#1c52d1"/><stop offset="1" stop-color="#13388d"/></linearGradient></defs>
-          <circle cx="32" cy="32" r="30" fill="url(#g)" stroke="#10265c" stroke-width="2"/>
-          <path d="M18 42h28v6H18z" fill="#fff"/><path d="M32 14c-8.84 0-16 7.16-16 16v6h9v-6a7 7 0 0114 0v6h9v-6c0-8.84-7.16-16-16-16z" fill="#fff"/>
-        </svg>
-        <div>
-          <h1>Companies <span style="color:var(--ultra-gold)">·</span> Codex Ultramar</h1>
-          <p class="subtitle">Maintained by the Storm Company Reclusiam. Edition Year: 2025.</p>
-          <nav class="nav" aria-label="Primary">
-            <a class="chip" href="index.html">Home</a>
-            <a class="chip" href="companies.html">Companies</a>
-            <a class="chip" href="armory.html">Armory</a>
-            <a class="chip" href="heroes.html">Heroes</a>
-            <a class="chip" href="campaigns.html">Campaigns</a>
-            <a class="chip" href="gallery.html">Gallery</a>
-            <a class="chip" href="allies.html">Allies</a>
-            <a class="chip" href="enemies.html">Enemies</a>
-            <a class="chip" href="relics.html">Appendix: Relics</a>
-          </nav>
-        </div>
-      </header>
-      <div id="app"></div>
-      <footer class="footer">
-        <em>Copied and illuminated on the Shrine-world of Eidolica; archived upon Macragge.</em>
-        <a class="back" href="index.html">⬅ Back to Index</a>
-      </footer>
-    </article>
-  </main>
-  <script src="codex.js"></script>
+<div class="page">
+<div class="folio">
+<div class="nav">
+<a href="index.html">⬅ Back to Dataslate</a>
+<a href="companies.html">Companies</a>
+<a href="armory.html">Armory</a>
+<a href="heroes.html">Heroes</a>
+<a href="campaigns.html">Campaigns</a>
+<a href="gallery.html">Gallery</a>
+<a href="allies.html">Allies</a>
+<a href="enemies.html">Enemies</a>
+<a href="relics.html">Relics</a>
+<a href="index.html" class="toggle-slate">⟲ Switch to Dataslate Interface</a>
+</div>
+<h1>Companies <span style="color:#c7a658">·</span> Codex Ultramar</h1>
+<p class="subtitle">Maintained by the Storm Company Reclusiam. Edition Year: 2025.</p>
+<div id="app"></div>
+<p class="footer"><em>Copied and illuminated on the Shrine-world of Eidolica; archived upon Macragge.</em></p>
+</div>
+</div>
+<script src="codex.js"></script>
 </body>
 </html>
