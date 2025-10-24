@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Codex Ultramar – Relic Edition</title>
+  <meta name="description" content="Single‑file ancient‑imperial codex layout for an Ultramarines project index." />
+  <style>
+    /* --- Palette & type --- */
+    :root{
+      --parchment:#f6f1e5;              /* base */
+      --parchment-ink:#201a14;          /* body text */
+      --parchment-muted:#5b4f40;        /* notes */
+      --ultra-blue:#1847b7;             /* Ultramarine heraldry */
+      --ultra-gold:#c7a658;             /* gilding */
+      --ultra-red:#8c2f2a;              /* wax */
+      --line:#d7cbb2;                   /* border lines */
+      --shadow:0 12px 40px rgba(32,26,20,.15), inset 0 1px 0 rgba(255,255,255,.35);
+      --radius:18px;
+    }
+
+    @font-face{
+      font-family:'CodexDisplay';
+      src: local('Garamond'), local('EB Garamond'), local('Palatino Linotype');
+    }
+    @font-face{
+      font-family:'CodexText';
+      src: local('Garamond'), local('Georgia'), local('Times New Roman');
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--parchment-ink); font: 17px/1.6 CodexText, serif; 
+      background:
+        radial-gradient(1200px 800px at 20% -10%, rgba(199,166,88,.18), transparent 60%),
+        radial-gradient(900px 700px at 120% 10%, rgba(24,71,183,.06), transparent 55%),
+        linear-gradient(180deg, #fbf9f3, #f0e7d5);
+    }
+
+    a{color:var(--ultra-blue); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Page frame */
+    .page{max-width: 980px; margin: 28px auto 60px; padding: 24px;}
+    .folio{
+      background: var(--parchment);
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px;
+      position: relative;
+      overflow:hidden;
+    }
+
+    /* Gilded corner ornaments */
+    .folio:before, .folio:after{content:""; position:absolute; width:120px; height:120px; opacity:.25;}
+    .folio:before{top:-6px; left:-6px; background: conic-gradient(from 45deg, var(--ultra-gold), transparent 25% 75%, var(--ultra-gold)); border-radius: 0 0 120px 0}
+    .folio:after{bottom:-6px; right:-6px; background: conic-gradient(from 225deg, var(--ultra-gold), transparent 25% 75%, var(--ultra-gold)); border-radius: 120px 0 0 0}
+
+    /* Header */
+    .masthead{display:flex; align-items:center; gap:16px; border-bottom: 2px solid var(--line); padding-bottom: 14px;}
+    .badge{width:56px; height:56px; color:var(--ultra-blue)}
+    .masthead h1{font: 700 1.9rem/1.2 CodexDisplay, serif; letter-spacing:.02em; margin:0}
+    .subtitle{margin:4px 0 0; color:var(--parchment-muted); font-size:1rem}
+
+    /* Nav */
+    .nav{display:flex; gap:10px; flex-wrap:wrap; margin: 14px 0 0}
+    .chip{display:inline-flex; align-items:center; gap:8px; padding:.45rem .75rem; border-radius: 999px; border:1.5px solid var(--line); background: #fbf7ee;}
+    .chip svg{width:16px; height:16px; color:var(--ultra-blue)}
+
+    /* Hero */
+    .hero{display:grid; grid-template-columns: 1fr 220px; gap:24px; padding: 18px 0 6px; align-items:start}
+    @media (max-width: 920px){ .hero{grid-template-columns: 1fr} }
+
+    .callout{
+      background: #fffaf0; border:1.5px solid var(--line); border-radius: 14px; padding: 18px; box-shadow: inset 0 20px 60px rgba(199,166,88,.08);
+    }
+    .callout h2{font: 700 1.5rem/1.25 CodexDisplay, serif; margin:0 0 8px; color:#1d2340}
+    .lead{font-size:1.02rem;}
+    .dropcap:first-letter{float:left; font: 900 3.2rem/1 CodexDisplay, serif; color:var(--ultra-blue); margin:.14rem .5rem 0 0; text-shadow:0 1px 0 #fff}
+
+    .seal{
+      background: #fff; border:1.5px solid var(--line); border-radius: 14px; padding:14px; position:relative; text-align:center
+    }
+    .wax{position:absolute; right:-10px; bottom:-10px; width:44px; height:44px; background:radial-gradient(circle at 35% 35%, #b9453c, var(--ultra-red)); border-radius:50%; box-shadow: 0 6px 12px rgba(0,0,0,.2)}
+    .seal h3{font: 700 1.1rem/1.2 CodexDisplay, serif; margin:.2rem 0}
+    .seal p{margin:.2rem 0; color:var(--parchment-muted)}
+
+    /* Cards */
+    .section-title{display:flex; align-items:center; justify-content:space-between; margin: 16px 0 8px}
+    .section-title h4{margin:0; font: 700 .95rem/1.2 CodexDisplay, serif; letter-spacing:.06em; text-transform:uppercase; color:#34302a}
+
+    .grid{display:grid; gap:14px; grid-template-columns: repeat(12, 1fr)}
+    .card{grid-column: span 4; background:#fffdf6; border: 1.5px solid var(--line); border-radius: 14px; padding: 14px; position:relative; overflow:hidden}
+    .card h3{margin:0 0 6px; font:700 1.1rem/1.2 CodexDisplay, serif}
+    .card p{margin:.2rem 0; color:var(--parchment-muted)}
+    .card:after{content:""; position:absolute; inset:0; background: linear-gradient(135deg, rgba(199,166,88,.12), transparent 40% 60%, rgba(24,71,183,.08)); opacity:0; transition: opacity .25s}
+    .card:hover:after{opacity:1}
+    .card .meta{position:absolute; bottom:10px; right:12px; font-size:.8rem; color:#7a6b57}
+    @media (max-width: 1000px){ .card{grid-column: span 6} }
+    @media (max-width: 620px){ .card{grid-column: span 12} }
+
+    /* Log (scribal register) */
+    .register{background:#fffaf0; border:1.5px solid var(--line); border-radius:14px; padding:12px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size:.9rem}
+    .row{display:grid; grid-template-columns: 140px 1fr; gap:10px; padding:6px 0; border-bottom:1px dashed #dbcfb6}
+    .row:last-child{border-bottom: none}
+    .tag{color:#6e5b3e}
+
+    /* Footer */
+    .footer{margin: 18px 0 4px; font-size:.95rem; color:#564b3b}
+
+    /* Decorative divider */
+    .orn{height:14px; display:flex; align-items:center; justify-content:center; margin:12px 0}
+    .orn svg{height:14px; opacity:.55; color:var(--ultra-gold)}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <article class="folio" aria-label="Codex page">
+      <header class="masthead">
+        <!-- Omega crest -->
+        <svg class="badge" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#1c52d1"/>
+              <stop offset="1" stop-color="#13388d"/>
+            </linearGradient>
+          </defs>
+          <circle cx="32" cy="32" r="30" fill="url(#g)" stroke="#10265c" stroke-width="2"/>
+          <path d="M18 42h28v6H18z" fill="#fff"/>
+          <path d="M32 14c-8.84 0-16 7.16-16 16v6h9v-6a7 7 0 0114 0v6h9v-6c0-8.84-7.16-16-16-16z" fill="#fff"/>
+        </svg>
+        <div>
+          <h1>Codex Ultramar <span style="color:var(--ultra-gold)">·</span> Relic Edition</h1>
+          <p class="subtitle">Being a faithful transcript of the records of the XIII Legion and its scions, as maintained by the Storm Company Reclusiam.</p>
+          <nav class="nav" aria-label="Primary" id="nav">
+            <span class="chip" data-section="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12l9-9 9 9"/><path d="M9 21V9h6v12"/></svg> Home</span>
+            <span class="chip" data-section="companies"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg> Companies</span>
+            <span class="chip" data-section="armory"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16M4 12h16M4 17h16"/></svg> Armory</span>
+            <span class="chip" data-section="heroes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 12a5 5 0 100-10 5 5 0 000 10z"/><path d="M20 21a8 8 0 10-16 0"/></svg> Heroes</span>
+            <span class="chip" data-section="campaigns"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18M3 12h18M3 18h18"/></svg> Campaigns</span>
+            <span class="chip" data-section="gallery"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 5h18v14H3z"/><path d="M10 13l3-3 5 6H6l2-3z"/></svg> Gallery</span>
+            <span class="chip" data-section="allies"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 11a5 5 0 1110 0 5 5 0 01-10 0z"/><path d="M2 22c1.5-4 6-6 10-6s8.5 2 10 6"/></svg> Allies</span>
+            <span class="chip" data-section="enemies"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg> Enemies</span>
+          </nav>
+        </div>
+      </header>
+
+      <section class="hero" aria-label="Opening folio">
+        <div class="callout">
+          <h2>Proclamation of the Tome</h2>
+          <p class="lead dropcap">Within these leaves are set down the annals of Ultramar — the roll of companies, the enumeration of arms, and the deeds of those sworn to the Primarch. Let each entry be penned with discipline, and each image stand as witness to duty fulfilled.</p>
+          <div class="orn" aria-hidden="true">
+            <svg viewBox="0 0 200 12" fill="currentColor"><path d="M0 6h70l6-6 6 6h30l6-6 6 6h70"/></svg>
+          </div>
+          <p class="lead">Begin with the index below. Add folios as your chronicles grow; affix seals where honors are due.</p>
+        </div>
+        <aside class="seal" aria-label="Scribal seal">
+          <h3>Authority</h3>
+          <p>By order of the Reclusiam, Storm Company.</p>
+          <p>Edition Year: <span id="year"></span></p>
+          <div class="wax" title="Wax seal"></div>
+        </aside>
+      </section>
+
+      <section aria-label="Index">
+        <div class="section-title"><h4>Index of Folios</h4></div>
+        <div class="grid" id="grid"></div>
+      </section>
+
+      <!-- SECTION: Companies -->
+      <section id="sec-companies" aria-label="Companies" style="display:none">
+        <div class="section-title"><h4>Companies · Order of Battle</h4></div>
+        <div class="grid">
+          <div class="card" style="grid-column: span 12">
+            <h3>1st Company — Veterans</h3>
+            <p><strong>Core:</strong> Terminator cadres and bladeguard veterans (Primaris-preference maintained).</p>
+            <ul>
+              <li>Terminator Command: Captain Agemon (prospective), Librarian in Terminator armour; (Wishlist) Chaplain in Terminator armour; Terminator Ancient.</li>
+              <li>Line Strength: 3× five‑man Terminator squads (owned) → target 3× ten‑man squads (needs +15 Terminators).</li>
+              <li>Assault Terminators: Target full complement of 30 (new pattern).</li>
+              <li>Bladeguard Veterans: Expand to full veteran blade contingent.</li>
+              <li>Centurions: Both assault and devastator patterns (noted despite Primaris preference).</li>
+            </ul>
+            <span class="meta">Status: Building plan set</span>
+          </div>
+
+          <div class="card" style="grid-column: span 12">
+            <h3>8th Company — Storm Company</h3>
+            <p><strong>Doctrine:</strong> Assault and jump infantry; “Storm’s Voice” aesthetic under Chaplain Shepard.</p>
+            <ul>
+              <li>Command: Captain <strong>Quintus</strong> (jump pack); Chaplain <strong>Shepard</strong> (Tempest Mortalis crozius; Pax Ferrata); Lt. (plasma pistol & power fist).</li>
+              <li>2nd Assault Squad led by Sgt. <strong>Kael</strong> — includes hand flamer; 2× grenadiers noted.</li>
+              <li>Veteran Intercessor elements: under consideration.</li>
+            </ul>
+            <span class="meta">Status: Active theatre prep</span>
+          </div>
+
+          <div class="card" style="grid-column: span 12">
+            <h3>10th Company — Scouts & Vanguard</h3>
+            <p><strong>Command:</strong> Captain (Phobos), Librarian (Phobos), Lieutenants: Reiver‑armoured; Phobos; combi‑weapon.</p>
+            <ul>
+              <li>2× Invictor Tactical Warsuits</li>
+              <li>Scouts: 3× five‑man squads</li>
+              <li>Reivers: 2× five‑man; 1× ten‑man</li>
+              <li>Incursor: 1× five‑man</li>
+              <li>Infiltrators: 3× five‑man</li>
+              <li>Eliminators: 2 squads</li>
+            </ul>
+            <span class="meta">Status: Recon complete</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: Armory -->
+      <section id="sec-armory" aria-label="Armory" style="display:none">
+        <div class="section-title"><h4>Armory · Engines & Assets</h4></div>
+        <div class="grid">
+          <div class="card"><h3>Transports</h3><p>Impulsor ×3; Drop Pod ×2; Land Raider ×1 (unbuilt)</p><span class="meta">Ready/Queued</span></div>
+          <div class="card"><h3>Artillery</h3><p>Vindicator ×1; Firestrike Servo‑Turret ×1</p><span class="meta">Deployed</span></div>
+          <div class="card"><h3>Dreadnoughts</h3><p>Brutalis ×2; Redemptor ×2; Venerable ×1; Saturnine Pattern ×1</p><span class="meta">Armory</span></div>
+          <div class="card" style="grid-column: span 12"><h3>Relics & Wargear</h3>
+            <ul>
+              <li><strong>Tempest Mortalis</strong> — reforged crozius arcanum (Shepard)</li>
+              <li><strong>Pax Ferrata</strong> — chained bolt sidearm (Shepard)</li>
+            </ul>
+            <p class="meta">Further relics: to be catalogued</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION: Heroes -->
+      <section id="sec-heroes" aria-label="Heroes" style="display:none">
+        <div class="section-title"><h4>Heroes of the Chapter</h4></div>
+        <div class="grid">
+          <div class="card"><h3>Chaplain Shepard</h3><p>“Storm’s Voice.” Bearer of Tempest Mortalis; Pax Ferrata (chained).</p><span class="meta">8th Company</span></div>
+          <div class="card"><h3>Captain Lucian Marria</h3><p>Newly promoted; field‑grade command duties (XO flavor).</p><span class="meta">Chapter Command</span></div>
+          <div class="card"><h3>Captain Quintus</h3><p>Jump Pack captaincy; assault doctrine lead.</p><span class="meta">8th Company</span></div>
+          <div class="card"><h3>Captain Agemon</h3><p>Veterans’ command prospect for Terminator cadre.</p><span class="meta">1st Company</span></div>
+          <div class="card"><h3>Librarian (Terminator Armour)</h3><p>Sanctioned psykana; attached to 1st Company operations.</p><span class="meta">Epistolary</span></div>
+          <div class="card"><h3>Lieutenant — Plasma & Power Fist</h3><p>Squad‑level shock leadership.</p><span class="meta">Assault cadres</span></div>
+        </div>
+      </section>
+
+      <!-- SECTION: Campaigns -->
+      <section id="sec-campaigns" aria-label="Campaigns" style="display:none">
+        <div class="section-title"><h4>Campaign Dossiers</h4></div>
+        <div class="grid">
+          <div class="card" style="grid-column: span 12"><h3>Eidolica Theatre</h3><p>Home‑world spiritual anchor; staging ground for Reclusiam chronicles.</p><span class="meta">Lore anchor</span></div>
+          <div class="card" style="grid-column: span 12"><h3>After‑Action Reports</h3><p>Templates for engagements, citations, and honors.</p><span class="meta">Templates ready</span></div>
+        </div>
+      </section>
+
+      <!-- SECTION: Gallery -->
+      <section id="sec-gallery" aria-label="Gallery" style="display:none">
+        <div class="section-title"><h4>Illuminations</h4></div>
+        <div class="grid" id="galleryGrid">
+          <div class="card"><h3>Plates</h3><p>Drop images into a <code>/gallery</code> folder and list filenames in the script to render.</p><span class="meta">WIP</span></div>
+        </div>
+      </section>
+
+      <!-- SECTION: Allies -->
+      <section id="sec-allies" aria-label="Allies of the XIII" style="display:none">
+        <div class="section-title"><h4>Allies of the XIII</h4></div>
+        <div class="grid">
+          <div class="card"><h3>Adeptus Astartes (Other Chapters)</h3><p>Mark cooperating Chapters and detachments.</p><span class="meta">Add entries</span></div>
+          <div class="card"><h3>Adeptus Mechanicus</h3><p>Forge support, Knight banners, tech‑auxilia.</p><span class="meta">Add entries</span></div>
+          <div class="card"><h3>Astra Militarum</h3><p>Regiments attached; PDF and auxilia.</p><span class="meta">Add entries</span></div>
+          <div class="card" style="grid-column: span 12"><h3>Notes</h3><p>Use this folio to list allied detachments you own and field alongside Ultramarines (e.g., Imperial Knights, Inquisition, Sisters of Battle).</p></div>
+        </div>
+      </section>
+
+      <!-- SECTION: Enemies -->
+      <section id="sec-enemies" aria-label="Enemies of the XIII" style="display:none">
+        <div class="section-title"><h4>Enemies of the XIII</h4></div>
+        <div class="grid">
+          <div class="card"><h3>Chaos Space Marines</h3><p>Generic heretic Astartes warbands opposing Ultramar.</p><span class="meta">Models: CSM</span></div>
+          <div class="card"><h3>Emperor’s Children</h3><p>III Legion Traitors; sonic terror and decadent warfare.</p><span class="meta">Models: EC</span></div>
+          <div class="card"><h3>World Eaters</h3><p>XII Legion Berzerkers; chainaxe doctrines and assault hosts.</p><span class="meta">Models: WE</span></div>
+          <div class="card"><h3>Tyranids</h3><p>Hive tendrils; bio‑constructs and synapse nodes.</p><span class="meta">Models: Tyranids</span></div>
+          <div class="card"><h3>Death Guard</h3><p>XIV Legion plague hosts; attritional and contamination warfare.</p><span class="meta">Models: DG</span></div>
+          <div class="card" style="grid-column: span 12"><h3>Operational Notes</h3><p>Add sub‑cards or separate pages for specific warbands, Hive Fleets, or named foes. We can attach AARs and kill‑marks here.</p></div>
+        </div>
+      </section>
+
+      <section aria-label="Register">
+        <div class="section-title"><h4>Scribal Register</h4></div>
+        <div class="register" id="log"></div>
+      </section>
+
+      <footer class="footer">
+        <em>Copied and illuminated on the Shrine‑world of Eidolica; maintained in the Chapter archives upon Macragge.</em>
+      </footer>
+    </article>
+  </main>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Cards dataset — edit here to grow your codex
+    const folios = [
+      { title: 'Companies', desc: 'Order of Battle and squad compositions.', meta: '8 folios', href: '#companies' },
+      { title: 'Armory', desc: 'Engines of war, relics, and sacred munitions.', meta: 'Dreads, tanks, relics', href: '#armory' },
+      { title: 'Heroes', desc: 'Chaplains, Captains, Librarians — oaths and honors.', meta: 'Storm Company focus', href: '#heroes' },
+      { title: 'Campaigns', desc: 'Theatres of war and after‑action testimonies.', meta: '3 theatres', href: '#campaigns' },
+      { title: 'Gallery', desc: 'Illuminations of the Chapter: paint and heraldry.', meta: '42 plates', href: '#gallery' },
+      { title: 'Appendix: Relics', desc: 'Tempest Mortalis, Pax Ferrata, and other artefacts.', meta: 'Under review', href: '#relics' },
+      { title: 'Allies of the XIII', desc: 'Imperial partners, agents, and auxiliaries.', meta: 'Astartes & Imperial', href: '#allies' },
+      { title: 'Enemies of the XIII', desc: 'Traitor Legions, Xenos, and Warp‑spawned foes.', meta: 'Ongoing dossiers', href: '#enemies' },
+    ];
+
+    const grid = document.getElementById('grid');
+    const log = document.getElementById('log');
+
+    function renderIndex(){
+      grid.innerHTML = '';
+      folios.forEach(f => {
+        const a = document.createElement('a');
+        a.className = 'card';
+        a.href = f.href;
+        a.innerHTML = `<h3>${f.title}</h3><p>${f.desc}</p><span class="meta">${f.meta}</span>`;
+        grid.appendChild(a);
+      });
+    }
+
+    function entry(tag, text){
+      const row = document.createElement('div');
+      row.className = 'row';
+      const ts = new Date().toLocaleString([], {hour12:false});
+      row.innerHTML = `<div class="tag">[${tag}]</div><div>${ts} — ${text}</div>`;
+      log.prepend(row);
+    }
+
+    renderIndex();
+    entry('SCRIBA', 'Codex initiated. Binding inspected and found true.');
+      // --- Router: show/hide sections ---
+    const sections = {
+      home: ['Index','Register'],
+      companies: ['sec-companies'],
+      armory: ['sec-armory'],
+      heroes: ['sec-heroes'],
+      campaigns: ['sec-campaigns'],
+      gallery: ['sec-gallery'],
+      allies: ['sec-allies'],
+      enemies: ['sec-enemies']
+    };
+
+    function showSection(key){
+      // Hide all dynamic sections
+      ['sec-companies','sec-armory','sec-heroes','sec-campaigns','sec-gallery'].forEach(id=>{
+        const el = document.getElementById(id);
+        if(el) el.style.display = 'none';
+      });
+      // Show selected
+      const targets = sections[key] || [];
+      targets.forEach(id=>{
+        const el = document.getElementById(id);
+        if(el) el.style.display = '';
+      });
+      // Scroll to top of folio
+      document.querySelector('.folio').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    // Wire nav chips
+    document.querySelectorAll('#nav .chip').forEach(ch => {
+      ch.addEventListener('click', () => {
+        const key = ch.getAttribute('data-section');
+        showSection(key);
+        entry('INDEX', `Navigated to ${key}.`);
+      });
+    });
+
+    // Start on Home
+    showSection('home');
+
+    // Optional: simple gallery loader (add file names here later)
+    const gallery = [];
+    const gridEl = document.getElementById('galleryGrid');
+    if(gridEl && gallery.length){
+      gridEl.innerHTML = '';
+      gallery.forEach(name => {
+        const c = document.createElement('div');
+        c.className = 'card';
+        c.innerHTML = `<h3>${name}</h3><p>Image plate</p>`;
+        gridEl.appendChild(c);
+      });
+    }
+  </script>
+</body>
+</html>
